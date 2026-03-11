@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+
+    <title>Neural Distribution Prior for LiDAR Out-of-Distribution Detection</title>
+    <meta
+      name="description"
+      content="Project page and demo for “Neural Distribution Prior for LiDAR Out-of-Distribution Detection”."
+    />
+
+    <meta property="og:title" content="Neural Distribution Prior for LiDAR OOD Detection" />
+    <meta
+      property="og:description"
+      content="Project page and demo for “Neural Distribution Prior for LiDAR Out-of-Distribution Detection”."
+    />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+    <script defer src="assets/main.js"></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a class="brand" href="#top" aria-label="Home">
+          <span class="brand__mark">NDP</span>
+          <span class="brand__text">LiDAR OOD</span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+          <a href="#contributions">What we propose</a>
+          <a href="#framework">Framework</a>
+          <a href="#demo">Demo</a>
+          <a href="#results">Results</a>
+          <a href="#quantitative">Quantitative</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="content">
+      <section id="top" class="hero">
+        <div class="container hero__inner">
+          <div class="hero__copy">
+            <h5 class="title">
+              Neural Distribution Prior for LiDAR Out-of-Distribution Detection
+            </h5>
+
+            <p class="authors">
+              <span class="authors__item">Zizhao Li</span>
+              <span class="sep">·</span>
+              <span class="authors__item">Zhengkang Xiang</span>
+              <span class="sep">·</span>
+              <span class="authors__item">Jiayang Ao</span>
+              <span class="sep">·</span>
+              <span class="authors__item">Feng Liu</span>
+              <span class="sep">·</span>
+              <span class="authors__item">Joseph West</span>
+              <span class="sep">·</span>
+              <span class="authors__item">Kourosh Khoshelham</span>
+            </p>
+            <p class="muted small">
+              The University of Melbourne, Parkville, Victoria 3010, Australia
+            </p>
+
+            <p class="venue">
+              <span class="badge">Paper demo</span>
+              <span class="venue__text">Conference / Journal • 2026</span>
+            </p>
+
+            <div class="links">
+              <a class="btn btn--primary" href="#" aria-disabled="true" title="Replace with your paper link">
+                Paper (PDF)
+              </a>
+              <a class="btn" href="#" aria-disabled="true" title="Replace with your arXiv link">arXiv</a>
+              <a class="btn" href="#" aria-disabled="true" title="Replace with your code link">Code</a>
+              <a class="btn" href="#" aria-disabled="true" title="Replace with your dataset link">Dataset</a>
+            </div>
+
+            
+          </div>
+        </div>
+      </section>
+
+      <section id="contributions" class="section">
+        <div class="container">
+          <div class="section__header">
+            <h2>What we propose</h2>
+          </div>
+          <div class="card">
+            <ul class="bullets">
+              <li>
+                We introduce the Neural Distribution Prior (NDP), a learnable prior estimation module that models the
+                distributional structure of network predictions and adaptively adjusts OOD scores to improve calibration
+                under class imbalance. Combined with the Extended Energy score proposed in this work, our method achieves
+                61.31% AP on the STU test set, which is over 10× higher than the previous state-of-the-art result.
+              </li>
+              <li>
+                We develop a Perlin noise–based OOD synthesis method that generates diverse synthetic OOD samples
+                directly from inlier scans, providing additional negative supervision without external datasets.
+              </li>
+              <li>
+                We propose a Soft Outlier Exposure (SOE) training strategy that jointly leverages synthetic OOD samples
+                and unreliable void regions by assigning soft OOD labels, enabling stable optimization and better
+                generalization.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="framework" class="section">
+        <div class="container">
+          <div class="section__header">
+            <h2>Framework</h2>
+          </div>
+
+          <div class="card card--media">
+            <img
+              class="media"
+              src="assets/framework.png"
+              alt="Framework diagram."
+              loading="lazy"
+            />
+            <figcaption class="caption">
+              Overview of the proposed Neural Distribution Prior (NDP) framework. Given an input point cloud, synthetic
+              OOD samples are generated using the Perlin Raise procedure and jointly trained with in-distribution data.
+              A sparse UNet-based backbone extracts point features, which are processed by an MLP to produce class
+              logits for OOD detection, while the transformer decoder utilizes multi-level features from the UNet to
+              generate mask-based predictions for in-distribution segmentation. The NDP module projects the input logits
+              into a latent embedding space and performs cross-attention with a learnable prior matrix
+              <i>&psi;</i>, producing a reweighting term <i>W(f<sub>&Theta;</sub>, &psi;)</i> that adjusts the static
+              OOD score to generate calibrated uncertainty maps.
+            </figcaption>
+          </div>
+        </div>
+      </section>
+
+      <section id="demo" class="section section--alt">
+        <div class="container">
+          <div class="section__header">
+            <h2>Demo</h2>
+          </div>
+
+          <div class="grid grid--2">
+            <div class="card">
+              <h3>Qualitative video</h3>
+              <p class="muted">Example: point cloud + predicted OOD heatmap overlay.</p>
+              <video class="video" controls playsinline preload="metadata" poster="assets/vis_main.jpg">
+                <source src="assets/demo_qualitative.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <div class="card">
+              <h3>Comparison video</h3>
+              <p class="muted">Example: baseline vs NDP side-by-side.</p>
+              <video class="video" controls playsinline preload="metadata" poster="assets/framework.png">
+                <source src="assets/demo_comparison.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="results" class="section">
+        <div class="container">
+          <div class="section__header">
+            <h2>Results</h2>
+          </div>
+
+          <div class="card card--media">
+            <img class="media" src="assets/vis_main.jpg" alt="Visualization result." loading="lazy" />
+            <figcaption class="caption">
+              Visualization of OOD score map on the STU benchmark. Points are labeled as
+              <span style="color: rgb(0, 0, 230)">inlier</span>,
+              <span style="color: rgb(204, 0, 0)">anomaly</span>, and
+              <span style="color: rgb(102, 0, 102)">unlabeled</span>. A continuous color bar indicates the predicted
+              likelihood of each point being <span style="color: rgb(0, 0, 230)">ID</span> or
+              <span style="color: rgb(204, 0, 0)">OOD</span>. Our approach yields precise and coherent anomaly masks
+              while maintaining a low false-positive rate on inlier regions.
+            </figcaption>
+          </div>
+        </div>
+      </section>
+
+      <section id="quantitative" class="section section--alt">
+        <div class="container">
+          <div class="section__header">
+            <h2>Quantitative results</h2>
+            <p class="muted">
+              Anomaly segmentation performance on the test set of the STU benchmark. All methods use the Mask4Former
+              architecture. NDP consistently achieves state-of-the-art performance under both point-level and
+              object-level evaluations.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="table-wrap" role="region" aria-label="STU quantitative results table" tabindex="0">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th rowspan="2" style="min-width: 180px">Method</th>
+                    <th rowspan="2" style="min-width: 130px">Auxiliary<br />OOD Data</th>
+                    <th colspan="3">Point-Level OOD</th>
+                    <th class="table__spacer" rowspan="2" aria-hidden="true"></th>
+                    <th colspan="5">Object-Level OOD</th>
+                  </tr>
+                  <tr>
+                    <th>AUROC ↑</th>
+                    <th>FPR@95 ↓</th>
+                    <th>AP ↑</th>
+                    <th>RecallQ ↑</th>
+                    <th>SQ ↑</th>
+                    <th>RQ ↑</th>
+                    <th>UQ ↑</th>
+                    <th>PQ ↑</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Deep Ensemble</td>
+                    <td>✗</td>
+                    <td>86.74</td>
+                    <td>58.05</td>
+                    <td class="hl">5.17</td>
+                    <td class="table__spacer" aria-hidden="true"></td>
+                    <td>16.75</td>
+                    <td>84.49</td>
+                    <td>10.43</td>
+                    <td>14.16</td>
+                    <td class="hl">8.81</td>
+                  </tr>
+                  <tr>
+                    <td>MC Dropout</td>
+                    <td>✗</td>
+                    <td>61.51</td>
+                    <td>82.37</td>
+                    <td class="hl">0.11</td>
+                    <td class="table__spacer" aria-hidden="true"></td>
+                    <td>2.25</td>
+                    <td><strong>86.72</strong></td>
+                    <td>1.95</td>
+                    <td>2.14</td>
+                    <td class="hl">1.86</td>
+                  </tr>
+                  <tr>
+                    <td>MaxLogit</td>
+                    <td>✗</td>
+                    <td>84.53</td>
+                    <td>81.49</td>
+                    <td class="hl">0.95</td>
+                    <td class="table__spacer" aria-hidden="true"></td>
+                    <td><strong>26.14</strong></td>
+                    <td>83.06</td>
+                    <td>2.13</td>
+                    <td>21.71</td>
+                    <td class="hl">1.77</td>
+                  </tr>
+                  <tr>
+                    <td>Void Classifier</td>
+                    <td>✓</td>
+                    <td>85.99</td>
+                    <td>78.60</td>
+                    <td class="hl">3.92</td>
+                    <td class="table__spacer" aria-hidden="true"></td>
+                    <td>17.64</td>
+                    <td>84.40</td>
+                    <td>8.19</td>
+                    <td>14.89</td>
+                    <td class="hl">6.91</td>
+                  </tr>
+                  <tr>
+                    <td>RbA</td>
+                    <td>✗</td>
+                    <td>66.38</td>
+                    <td>100.0</td>
+                    <td class="hl">0.81</td>
+                    <td class="table__spacer" aria-hidden="true"></td>
+                    <td>24.04</td>
+                    <td>83.28</td>
+                    <td>3.23</td>
+                    <td>20.02</td>
+                    <td class="hl">2.69</td>
+                  </tr>
+                  <tr class="table__divider" aria-hidden="true">
+                    <td colspan="12"></td>
+                  </tr>
+                  <tr>
+                    <td>NDP-Entropy</td>
+                    <td>✓</td>
+                    <td>98.41</td>
+                    <td>9.83</td>
+                    <td class="hl">29.53</td>
+                    <td class="table__spacer" aria-hidden="true"></td>
+                    <td>16.33</td>
+                    <td>74.40</td>
+                    <td>15.09</td>
+                    <td>12.15</td>
+                    <td class="hl">11.22</td>
+                  </tr>
+                  <tr>
+                    <td>NDP-Energy</td>
+                    <td>✓</td>
+                    <td>99.21</td>
+                    <td>3.65</td>
+                    <td class="hl">53.75</td>
+                    <td class="table__spacer" aria-hidden="true"></td>
+                    <td>20.31</td>
+                    <td>78.21</td>
+                    <td>26.94</td>
+                    <td>15.88</td>
+                    <td class="hl">21.07</td>
+                  </tr>
+                  <tr>
+                    <td>NDP-EE</td>
+                    <td>✓</td>
+                    <td><strong>99.26</strong></td>
+                    <td><strong>3.30</strong></td>
+                    <td class="hl"><strong>61.31</strong></td>
+                    <td class="table__spacer" aria-hidden="true"></td>
+                    <td>25.58</td>
+                    <td>79.93</td>
+                    <td><strong>31.26</strong></td>
+                    <td><strong>20.44</strong></td>
+                    <td class="hl"><strong>24.99</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="citation" class="section section--alt">
+        <div class="container">
+          <div class="section__header">
+            <h2>Citation</h2>
+          </div>
+
+          <div class="card">
+            <div class="cite__row">
+              <pre id="bibtex" class="code" tabindex="0">
+                To appear at CVPR 2026.
+</pre>
+              <button class="btn btn--primary" type="button" data-copy="#bibtex">Copy BibTeX</button>
+            </div>
+            <p class="muted small">
+              If copy doesn’t work (some browsers block clipboard without HTTPS), manually select the text.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div class="muted small">
+          © <span id="year"></span> NDP demo • Built for GitHub Pages •
+          <a href="https://github.com/" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
