@@ -17,6 +17,10 @@
       content="Project page and demo for “Neural Distribution Prior for LiDAR Out-of-Distribution Detection”."
     />
     <meta property="og:type" content="website" />
+    <!-- Bump ASSET_VERSION after each deploy so browsers fetch fresh CSS/JS/images. -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,8 +28,8 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="assets/style.css" />
-    <script defer src="assets/main.js"></script>
+    <link rel="stylesheet" href="assets/style.css?v=2" />
+    <script defer src="assets/main.js?v=2"></script>
   </head>
 
   <body>
@@ -138,7 +142,7 @@
           <div class="card card--media">
             <img
               class="media"
-              src="assets/framework.png"
+              src="assets/framework.png?v=2"
               alt="Framework diagram."
               loading="lazy"
             />
@@ -163,8 +167,8 @@
           </div>
 
           <div class="card card--media">
-            <video class="video" controls playsinline preload="metadata" poster="assets/vis_main.jpg">
-              <source src="assets/ndp_demo.mov" />
+            <video class="video" controls playsinline preload="metadata" poster="assets/vis_main.jpg?v=2">
+              <source src="assets/ndp_demo.mov?v=2" />
               Your browser does not support the video tag.
             </video>
             <figcaption class="caption" style="margin-top: 12px">
@@ -181,7 +185,7 @@
           </div>
 
           <div class="card card--media">
-            <img class="media" src="assets/vis_main.jpg" alt="Visualization result." loading="lazy" />
+            <img class="media" src="assets/vis_main.jpg?v=2" alt="Visualization result." loading="lazy" />
             <figcaption class="caption">
               Visualization of OOD score map on the STU benchmark. Points are labeled as
               <span style="color: rgb(0, 0, 230)">inlier</span>,

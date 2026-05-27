@@ -18,11 +18,19 @@ In your GitHub repo:
    - **Source**: *Deploy from a branch*
    - **Branch**: `main` (or your default branch)
    - **Folder**: `/docs`
-3. Save, then wait ~1–2 minutes for deployment
+3. Save, then wait ~1–10 minutes for deployment
 
 Your site will appear at:
 
 - `https://<username>.github.io/<repo>/`
+
+## Cache / seeing your latest changes
+
+GitHub Pages and browsers cache static files. After you push updates:
+
+1. **Bump the version** in `docs/index.html` on every asset URL (search for `?v=2` and change to `?v=3`, etc.). This forces browsers to reload CSS, JS, images, and video.
+2. Wait a few minutes for GitHub Pages to redeploy.
+3. Hard refresh in the browser: **Ctrl+Shift+R** (Windows) or **Cmd+Shift+R** (Mac).
 
 ## Customize
 
